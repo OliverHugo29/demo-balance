@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; background: #f4f6f8; display: flex; justify-content: center; padding: 20px; }
+        .app { width: 350px; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .greeting { font-size: 1.1rem; color: #666; margin-bottom: 5px; }
+        .bal-card { background: #00b074; color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; }
+        .bal-value { font-size: 1.8rem; font-weight: bold; }
+        input { width: 100%; padding: 12px; margin: 5px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .btn-add { background: #00b074; color: white; margin-top: 10px; }
+        .btn-clear { background: #ff4d4d; color: white; margin-top: 10px; }
+        .history-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="greeting">Hi, Oliver!</div>
+    <div class="bal-card">
+        <div>Available Balance</div>
+        <div class="bal-value" id="balance">₦360,000</div>
+    </div>
+
+    <input id="desc" placeholder="Transaction Name">
+    <input id="amount" type="number" placeholder="Amount (₦)">
+    <button class="btn-add" onclick="addEntry()">Add Transaction</button>
+    <button class="btn-clear" onclick="clearAll()">Reset Balance</button>
+
+    <div id="history">
+        <h3>Recent Transactions</h3>
+    </div>
+</div>
+
+<script>
+    // Starting balance set to 360,000
+    let bal = 360000;
+    
+    function addEntry() {
+        let desc = document.getElementById('desc').value;
+        let amt = parseFloat(document.getElementById('amount').value);
+        if(desc && !isNaN(amt)) {
+            bal += amt;
+            document.getElementById('balance').innerText = '₦' + bal.toLocaleString();
+            let div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `<span>${desc}</span> <span>₦${amt.toLocaleString()}</span>`;
+            document.getElementById('history').prepend(div);
+            document.getElementById('desc').value = "";
+            document.getElementById('amount').value = "";
+        }
+    }
+    
+    function clearAll() {
+        bal = 360000;
+        document.getElementById('balance').innerText = '₦360,000';
+        document.getElementById('history').innerHTML = '<h3>Recent Transactions</h3>';
+    }
+</script>
+</body>
+</html>
